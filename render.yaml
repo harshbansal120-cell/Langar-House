@@ -1,0 +1,17 @@
+# Render deployment configuration
+services:
+  - type: web
+    name: langar-house-backend
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./backend/Dockerfile
+    # Dockerfile defines the container behavior
+
+  - type: static
+    name: langar-house-frontend
+    env: static
+    plan: free
+    region: oregon
+    buildCommand: cd frontend && npm ci && npm run build
+    publishPath: frontend/dist

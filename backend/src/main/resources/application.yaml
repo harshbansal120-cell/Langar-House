@@ -1,0 +1,111 @@
+spring:
+  application:
+    name: langar-house-backend
+  config:
+    import: optional:file:.env[.properties]
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 3
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-test-query: SELECT 1
+      pool-name: LangarHousePool
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+
+  servlet:
+    multipart:
+      max-request-size: 5MB
+      max-file-size: 5MB
+
+server:
+  port: ${PORT:8080}
+  shutdown: graceful
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/plain
+    min-response-size: 1024
+  tomcat:
+    connection-timeout: 30s
+
+supabase:
+  jwt:
+    secret: ${SUPABASE_JWT_SECRET}
+  project:
+    url: ${SUPABASE_PROJECT_URL}
+
+# ── Rate Limiting ──────────────────────────────────────────
+rate-limit:
+  capacity: 100
+  refill-tokens: 100
+  refill-duration: 60
+  enabled: true
+
+# ── CORS — override per profile ───────────────────────────
+cors:
+  allowed-origins:
+    - http://localhost:3000
+    - http://localhost:5173
+
+# ── Security Headers ──────────────────────────────────────
+security:
+  headers:
+    hsts: false          # Only enable in prod (HTTPS)
+
+# ── Actuator ──────────────────────────────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: never   # Never leak component info publicly
+      probes:
+        enabled: true        # Enables /actuator/health/liveness + /readiness
+
+# ── App Info ──────────────────────────────────────────────
+info:
+  app:
+    name: Langar House Backend
+    version: 1.0.0
+    description: Community Kitchen Management System
+
+# ── Swagger ───────────────────────────────────────────────
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    try-it-out-enabled: true
+  api-docs:
+    path: /v3/api-docs
+
+# ── Logging ───────────────────────────────────────────────
+logging:
+  level:
+    root: WARN
+    com.langarhouse.backend: INFO
+    org.springframework.security: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} — %msg%n"

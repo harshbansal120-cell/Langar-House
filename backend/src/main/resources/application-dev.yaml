@@ -1,0 +1,22 @@
+# ── DEV PROFILE ───────────────────────────────────────────
+# Activate: --spring.profiles.active=dev
+# Or in IntelliJ: Run → Edit Configurations → Active Profiles → dev
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update       # Auto-create tables in dev
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+security:
+  headers:
+    hsts: false              # No HSTS on localhost
+
+logging:
+  level:
+    root: INFO
+    com.langarhouse.backend: DEBUG
+    org.springframework.security: DEBUG

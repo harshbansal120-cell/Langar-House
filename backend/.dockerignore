@@ -1,0 +1,31 @@
+# Build output
+target/
+
+# Version control
+.git
+.gitignore
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Maven wrapper (already copied explicitly)
+!.mvn
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docs
+*.md
+LICENSE
+
+# Environment files — NEVER bake secrets into images
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log

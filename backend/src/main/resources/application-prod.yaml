@@ -1,0 +1,23 @@
+# ── PROD PROFILE ──────────────────────────────────────────
+# Activate: --spring.profiles.active=prod
+# Docker: SPRING_PROFILES_ACTIVE=prod
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate     # NEVER auto-modify schema in prod
+    show-sql: false
+
+security:
+  headers:
+    hsts: true               # Enable HSTS — requires HTTPS
+
+cors:
+  allowed-origins:
+    - ${FRONTEND_URL:https://langar-house-frontend.vercel.app}   # Dynamic injection via Render Dashboard
+
+logging:
+  level:
+    root: WARN
+    com.langarhouse.backend: INFO
+    org.springframework.security: WARN
